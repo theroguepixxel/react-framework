@@ -4,12 +4,12 @@ import PropTypes from "prop-types"
 export default class RegistryProvider extends React.Component {
 
     static propTypes = {
-        registrar: PropTypes.object.isRequired
+        registry: PropTypes.object.isRequired
     }
 
     getChildContext() {
         return {
-            registry: this.props.registrar.getRegistry()
+            registry: this.props.registry
         }
     }
 
@@ -18,7 +18,7 @@ export default class RegistryProvider extends React.Component {
     }
 
     render(){
-        console.log("Registry: ",this.props.registrar.getRegistry())
+        console.log("Registry: ",this.props.registry)
         return React.Children.only(this.props.children)
     }
 }

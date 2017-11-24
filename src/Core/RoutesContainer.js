@@ -3,7 +3,7 @@ import { Route, Switch, Link } from "react-router-dom"
 import RootLayout from "../UI/Layouts/RootLayout"
 import AppLayout from "../UI/Layouts/AppLayout"
 import HomeLayout from "../UI/Layouts/HomeLayout"
-
+import PropsTypes from "prop-types"
 
 const Home = (props) => {
     return(
@@ -48,14 +48,22 @@ const Links = (props) => {
     )
 }
 
-const RoutesContainer = (props) => {
+const RoutesContainer = (props, context) => {
+
+    let { Menu } = context.registry
+    
     return (
         <RootLayout>
             <Route path="*" component={Links} />
             <HomeLayoutRoutes />
             <AppLayoutRoutes />
+            { _.map(Menu.ComponentRegistry.layouts,(Layout, index) => (<Layout key={index} />)) }
         </RootLayout>
     )
+}
+
+RoutesContainer.contextTypes = {
+    registry: PropsTypes.object.isRequired
 }
 
 export default RoutesContainer

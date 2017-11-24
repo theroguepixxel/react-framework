@@ -12,13 +12,13 @@ type Props = {
 export default class App extends React.Component<Props> {
 
     static propTypes = {
-        registrar: PropTypes.object.isRequired    
+        registry: PropTypes.object.isRequired    
     }
 
     render() {
         return (
             <AppProvider>
-                <RegistryProvider registrar={this.props.registrar}>
+                <RegistryProvider registry={this.props.registry}>
                     <AppContainer />    
                 </RegistryProvider>
             </AppProvider>
