@@ -7,9 +7,7 @@ export function RFModule(moduleConfig) {
             ModuleName: moduleName,
             Component: moduleConfig.Component,
             register: () => {
-                return {
-                    [moduleName]:registerConfig
-                }   
+                return registerConfig
             }
         } 
     }
