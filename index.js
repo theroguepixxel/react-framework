@@ -3,7 +3,6 @@ import React from "react"
 import { AppModule } from "./src/index"
 import Registrar from "./src/Lib/Registrar"
 
-
 export default class ReactFramework {
     
     constructor() {
