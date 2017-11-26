@@ -1,12 +1,8 @@
-import "babel-polyfill"
 import { RFModule } from "../Module"
-import App from "./App"
 import EmptyLayout from "./UI/Layouts/EmptyLayout"
 
 @RFModule({
-    Component: App,
-    layouts: [
-        EmptyLayout
-    ],
+    ModuleName: "App",
+    RootLayout: EmptyLayout,
 })
 export class AppModule {}

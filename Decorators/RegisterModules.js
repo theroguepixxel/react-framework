@@ -1,36 +1,21 @@
+import _ from "lodash"
 
-export default function RegisterModules(Modules) {
-    return function(Target) {
-
-        return class extends Target {
+export default function RegisterModules(AppConfig) {
+    return function(target, name, descriptor) {
+        
+        let origFn = descriptor.value
+        
+        let newFn = function(config) {
+            let RootModule = _.merge(AppConfig.RootModule,config.RootModule)
+            let args = {
+                RootModule: RootModule.ModuleName,
+                modules:[RootModule, ...AppConfig.modules,...config.modules]
+            }
             
-            constructor(config) {
-                super(_.merge(Modules, config.modules))
-                
-                this._createComponentRegistry()
-                // this._createLayoutRegistry()
-
-                console.log("Modules Config: ",this._Modules)
-            }
-
-            _createComponentRegistry() {
-                this._registry = _.reduce(this._Modules,(registry, module, ModuleName) => {
-                    registry[ModuleName] = (registry[ModuleName] == undefined)? {} : registry[ModuleName] 
-                    
-                    let ComponentRegistry = {
-                        layouts: (module.hasOwnProperty('layouts'))? module.layouts: null
-                    }
-
-                    registry[ModuleName] = { ...registry[ModuleName], ...{ComponentRegistry}}
-                    return registry
-                },this._registry)
-            }
-
-            _createLayoutRegistry() {
-                 this._registry = _.reduce(this._Modules,(registry, module) => {
-                    return registry
-                },this._registry)
-            }
+            origFn.call(target, args)
         }
+    
+        descriptor.value = newFn
+        return descriptor
     }
 }

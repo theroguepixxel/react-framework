@@ -1,26 +1,19 @@
-import { AppModule } from "../index"
-import AppConfig from "../Config"
-import { RegisterModules } from "../../Decorators"
+import Registry from "./Registry"
 
-@RegisterModules({
-    AppModule,
-    ...AppConfig.modules
-})
 export default class Registrar {
     
-    _registry = {}
-    _Modules = {}
+    _registeredModules = {}
 
     constructor(Modules) {
+        this._registeredModules = Modules
+    }    
 
-        this._Modules = _.reduce(Modules, (acc, module) => {
-            acc[module.ModuleName] = module.register() 
-            return acc
-        },{})
-       
-    }
-    
-    getRegistry() {
-        return this._registry
+    createRegistry() {
+
+        _.each(this._registeredModules,(Module) => {
+            Module.register()
+        })
+
+        return Registry
     }
 }

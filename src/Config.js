@@ -1,7 +1,9 @@
 import { AuthModule } from "@trp/react-framework-auth"
+import { AppModule } from "./index"
 
 export default {
-    modules: {
+    RootModule: AppModule,
+    modules: [
         AuthModule    
-    }
+    ]
 }

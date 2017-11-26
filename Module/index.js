@@ -1,15 +1,15 @@
 // @flow
+import _ from "lodash"
+import Registry from "../src/Lib/Registry"
 
 export function RFModule(moduleConfig) {
     return function(targetClass) {
-        let registerConfig = _.omit(moduleConfig, ['Component'])
-        let moduleName = moduleConfig.Component.name
-        return {
-            ModuleName: moduleName,
-            Component: moduleConfig.Component,
-            register: () => {
-                return registerConfig
-            }
-        } 
+        targetClass.ModuleName = moduleConfig.ModuleName
+
+        targetClass.register = () => {
+            Registry.addModule(moduleConfig)
+        }
+
+        return targetClass
     }
 }

@@ -1,25 +1,30 @@
 // @flow
+import "babel-polyfill"
 import React from "react"
-import { AppModule } from "./src/index"
+import Resolver from "./src/Lib/Resolver"
 import Registrar from "./src/Lib/Registrar"
+import { RegisterModules } from "./Decorators"
+import AppConfig from "./src/Config"
 
 export default class ReactFramework {
     
-    constructor() {
-        this.registryIsInitialized = false
-        this.registrar = null
-    }
+    _config = {}
+    registry = null
+    registryIsInitialized = false
 
+    @RegisterModules(
+        AppConfig
+    )
     static initialiseRegistry(config) {
         this.registryIsInitialized = true
-        this.registry = new Registrar(config).getRegistry()
+        this._config = config
+        this.registry = new Registrar(this._config.modules).createRegistry()
     }
     
     static createApp() {
         if(!this.registryIsInitialized) {
             throw new Error('Registry is not initialized. Please run `ReactFramework.initialiseRegistry()` before running `ReactFramework.createApp()`')
         }
-        const ReactFramework = () => (<AppModule.Component registry={this.registry} />)
-        return ReactFramework
+        return Resolver.newApp(this.registry, this._config)
     }
 }
